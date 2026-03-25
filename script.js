@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
     const btn = document.getElementById("btn");
     const input = document.getElementById("url");
+    const viewer = document.getElementById("viewer");
 
     function translate(){
         let url = input.value.trim();
@@ -11,9 +12,12 @@ document.addEventListener("DOMContentLoaded", function(){
         if(!url.startsWith("http")){
             url = "https://" + url;
         }
-        // 最稳定方案：直接在新标签打开 Google 翻译
+
+        // Google 翻译代理模式
         const translateURL = "https://translate.google.com/translate?sl=auto&tl=zh-CN&u=" + encodeURIComponent(url);
-        window.open(translateURL, "_blank");
+
+        // 在 iframe 内展示
+        viewer.src = translateURL;
     }
 
     btn.addEventListener("click", translate);
