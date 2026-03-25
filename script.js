@@ -1,3 +1,8 @@
+function translate(){
+}
+
+```javascript
+
 document.getElementById("btn").addEventListener("click", translate);
 
 document.getElementById("url").addEventListener("keypress", function(e){
