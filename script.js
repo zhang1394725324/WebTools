@@ -1,4 +1,4 @@
-function translateSite(){
+function translate(){
 
 let url=document.getElementById("url").value
 
@@ -7,17 +7,12 @@ alert("请输入网址")
 return
 }
 
-let googleTranslate=
+let translateURL=
 
-"https://translate.google.com/translate?sl=auto&tl=zh-CN&u="
-
-let iframe=document.createElement("iframe")
-
-iframe.src=googleTranslate+encodeURIComponent(url)
+"https://translate.googleusercontent.com/translate?sl=auto&tl=zh-CN&u="
 
 let viewer=document.getElementById("viewer")
 
-viewer.innerHTML=""
-viewer.appendChild(iframe)
+viewer.src=translateURL+encodeURIComponent(url)
 
 }
