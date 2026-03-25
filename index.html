@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>网页翻译器</title>
+<title>网站翻译浏览器</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -11,27 +11,21 @@
 
 <body>
 
-<div class="container">
-
-<h1>🌍 网站翻译为中文</h1>
-
-<div class="search">
+<div class="topbar">
 
 <input
- type="text"
- id="url"
- placeholder="输入需要翻译的网站URL"
+id="url"
+type="text"
+placeholder="输入网站地址 https://example.com"
 >
 
-<button onclick="translateSite()">
+<button onclick="translate()">
 翻译为中文
 </button>
 
 </div>
 
-<div id="viewer"></div>
-
-</div>
+<iframe id="viewer"></iframe>
 
 <script src="script.js"></script>
 
