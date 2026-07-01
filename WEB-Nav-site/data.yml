@@ -1,0 +1,64 @@
+# 网站基础配置
+site:
+  title: 创意工具导航
+  subtitle: 精选设计师/开发者实用站点集合
+  logo: 🧩
+  darkModeDefault: false
+
+# 导航分类列表
+categories:
+  - id: design
+    name: 在线工具
+    icon: 🌍
+    sites:
+      - name: bitbybit
+        url: https://bitbybit.dev/
+        desc: 类似grasshopper-online
+        tag: grasshopper
+      - name: NodePen
+        url: https://nodepen.io/
+        desc: 类似grasshopper-online
+        tag: grasshopper
+      - name: Pixlr
+        url: https://pixlr.com
+        desc: 在线图片修图编辑器
+        tag: 图像处理
+
+  - id: dev
+    name: 开发工具
+    icon: 💻
+    sites:
+      - name: GitHub
+        url: https://github.com
+        desc: 代码开源托管平台
+        tag: 代码仓库
+      - name: JSON格式化
+        url: https://json.cn
+        desc: JSON在线解析校验工具
+        tag: 在线工具
+
+  - id: media
+    name: 素材资源
+    icon: 🖼️
+    sites:
+      - name: Pexels
+        url: https://www.pexels.com
+        desc: 免费高清无版权图片
+        tag: 图库
+      - name: Iconfont
+        url: https://www.iconfont.cn
+        desc: 阿里矢量图标库
+        tag: 图标
+
+  - id: ai
+    name: AI工具
+    icon: 🤖
+    sites:
+      - name: ChatGPT
+        url: https://chat.openai.com
+        desc: 通用大语言模型
+        tag: AI对话
+      - name: Midjourney
+        url: https://www.midjourney.com
+        desc: AI绘画生成平台
+        tag: AI绘图
