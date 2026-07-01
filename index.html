@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">
+    <title>Web工具导航 | 简洁工具箱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, 'Noto Sans', sans-serif;
+            background: linear-gradient(145deg, #f6f9fc 0%, #eef2f5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        /* 主容器 - 卡片式导航面板 */
+        .nav-container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.02);
+            padding: 2rem 2rem 2.5rem;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* 头部简介 */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1e2b3c, #2c4b66);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: #4a5b6e;
+            font-weight: 450;
+            font-size: 1rem;
+            margin-top: 0.3rem;
+            border-top: 1px solid #e2e8f0;
+            display: inline-block;
+            padding-top: 0.5rem;
+        }
+
+        /* 工具网格 — 现代感卡片布局 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* 卡片外层容器（承载删除按钮） */
+        .tool-item {
+            position: relative;
+        }
+
+        /* 单个工具卡片 */
+        .tool-card {
+            display: block;
+            text-decoration: none;
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.5rem 1.2rem;
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.2s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(203, 213, 225, 0.5);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+
+        .tool-item:hover .tool-card {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+            border-color: #cbdff2;
+        }
+
+        /* 删除按钮样式 */
+        .delete-tool-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 90, 90, 0.9);
+            border: none;
+            color: white;
+            font-size: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.2s, background 0.2s;
+            z-index: 10;
+            font-family: monospace;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .tool-item:hover .delete-tool-btn {
+            opacity: 1;
+        }
+        .delete-tool-btn:hover {
+            background: #e03a3a;
+            transform: scale(1.05);
+        }
+
+        /* 按钮图标区 + 文字 */
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        .tool-title {
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: #0f2b3d;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.3px;
+        }
+        .tool-desc {
+            font-size: 0.85rem;
+            color: #5c6f87;
+            line-height: 1.4;
+            margin-top: 0.25rem;
+        }
+        .arrow-hint {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #7f8fa4;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .tool-item:hover .arrow-hint {
+            opacity: 1;
+            color: #2c6e9e;
+        }
+
+        /* 空状态提示 */
+        .empty-tip {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            color: #7d8e9e;
+        }
+
+        /* 添加新工具区域 - 可扩展面板 */
+        .add-section {
+            margin-top: 1rem;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 1.8rem;
+            text-align: center;
+        }
+        .add-panel {
+            background: #f8fafc;
+            border-radius: 2rem;
+            padding: 1rem 1.2rem;
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .add-input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+            background: white;
+            padding: 0.3rem 0.8rem 0.3rem 1rem;
+            border-radius: 3rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            min-width: 260px;
+        }
+        .add-input-group input {
+            border: none;
+            padding: 0.6rem 0.3rem;
+            font-size: 0.9rem;
+            width: 160px;
+            min-width: 100px;
+            outline: none;
+            background: transparent;
+            font-family: inherit;
+        }
+        .add-input-group input::placeholder {
+            color: #9aaebf;
+        }
+        .add-input-group input:focus {
+            border-bottom: 1px solid #3b82f6;
+        }
+        .btn-add {
+            border: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.6rem 1.3rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: #1f4a6e;
+        }
+        .btn-primary:hover {
+            background: #0f3a56;
+            transform: scale(0.97);
+        }
+        .btn-secondary {
+            background: #4b6a7f;
+        }
+        .info-note {
+            font-size: 0.7rem;
+            color: #6a7c8f;
+            margin-top: 1rem;
+            background: #eef3fa;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+        }
+
+        /* 页脚微提示 */
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #7c8e9e;
+        }
+
+        /* 操作提示浮层 */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e4e;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 0.92;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 620px) {
+            .nav-container {
+                padding: 1.5rem;
+            }
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            .add-input-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .add-input-group input {
+                flex: 1;
+            }
+        }
+    </style>
+    <!-- 引入yaml解析库 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <!-- 独立yml配置加载文件 -->
+    <script src="./config.js"></script>
+</head>
+<body>
+<div class="nav-container">
+    <div class="header">
+        <h1>⚙️ 工具栈 · 导航</h1>
+        <p>简洁 · 高效 · 即刻抵达</p>
+    </div>
+
+    <!-- 动态工具卡片列表容器 -->
+    <div id="toolsGrid" class="tools-grid"></div>
+
+    <!-- 便捷添加新工具区域 -->
+    <div class="add-section">
+        <div class="add-panel">
+            <div class="add-input-group">
+                <input type="text" id="newToolName" placeholder="工具名称 (例: JSON 美化)" autocomplete="off">
+                <span style="color:#b9c8e5;">|</span>
+                <input type="text" id="newToolLink" placeholder="相对/绝对链接 (例: /tools/format.html)" autocomplete="off">
+            </div>
+            <button class="btn-add btn-primary" id="addToolBtn">✨ 添加工具</button>
+            <button class="btn-add btn-secondary" id="resetDefaultBtn">↻ 重置默认</button>
+        </div>
+        <div class="info-note">
+            💡 提示：鼠标悬浮卡片可删除，数据自动保存在本地浏览器
+        </div>
+    </div>
+    <div class="footer">
+        🧰 本地存储 · 你的专属工具导航
+    </div>
+</div>
+
+<!-- 全局Toast提示容器 -->
+<div id="toastBox" class="toast"></div>
+
+<script>
+    // ====================== DOM缓存 ======================
+    const dom = {
+        grid: document.getElementById("toolsGrid"),
+        nameInput: document.getElementById("newToolName"),
+        linkInput: document.getElementById("newToolLink"),
+        addBtn: document.getElementById("addToolBtn"),
+        resetBtn: document.getElementById("resetDefaultBtn"),
+        toast: document.getElementById("toastBox")
+    };
+    let config = null;
+
+    // ====================== 工具函数 ======================
+    // 本地存储读写
+    function getToolsList() {
+        const raw = localStorage.getItem(config.storageKey);
+        if (!raw) return [...config.defaultTools];
+        try {
+            const list = JSON.parse(raw);
+            return Array.isArray(list) ? list.map(item => ({
+                id: item.id || genId(),
+                name: item.name || "未命名工具",
+                link: item.link || "#",
+                icon: item.icon || "🔧",
+                desc: item.desc || "自定义工具"
+            })) : [...config.defaultTools];
+        } catch {
+            return [...config.defaultTools];
+        }
+    }
+    function saveToolsList(list) {
+        localStorage.setItem(config.storageKey, JSON.stringify(list));
+    }
+
+    // 生成唯一ID
+    function genId() {
+        return "tool_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 6);
+    }
+
+    // XSS HTML转义
+    function escapeHtml(str) {
+        if (!str) return "";
+        return String(str)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    // 显示轻提示Toast（替代alert）
+    function showToast(text, delay = 1500) {
+        dom.toast.textContent = text;
+        dom.toast.classList.add("show");
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => {
+            dom.toast.classList.remove("show");
+        }, delay);
+    }
+
+    // 根据工具名匹配图标
+    function matchIcon(name) {
+        const txt = name.toLowerCase();
+        if (txt.includes("json")) return "📋";
+        if (txt.includes("翻译")) return "🌍";
+        if (txt.includes("图片")) return "🖼️";
+        if (txt.includes("颜色")) return "🎨";
+        if (txt.includes("日期")) return "📅";
+        if (txt.includes("编码")) return "⚡";
+        return "🛠️";
+    }
+
+    // ====================== 核心渲染 ======================
+    function renderTools() {
+        const list = getToolsList();
+        if (!list.length) {
+            dom.grid.innerHTML = `<div class="empty-tip">暂无工具，点击上方添加 ✨</div>`;
+            return;
+        }
+        let html = "";
+        list.forEach(tool => {
+            const name = escapeHtml(tool.name);
+            const desc = escapeHtml(tool.desc);
+            const link = escapeHtml(tool.link);
+            html += `
+                <div class="tool-item" data-id="${escapeHtml(tool.id)}">
+                    <a href="${link}" class="tool-card">
+                        <div class="tool-icon">${escapeHtml(tool.icon)}</div>
+                        <div class="tool-title">${name}</div>
+                        <div class="tool-desc">${desc}</div>
+                        <div class="arrow-hint"><span>↗ 打开工具</span></div>
+                    </a>
+                    <button class="delete-tool-btn" title="删除此工具">✕</button>
+                </div>
+            `;
+        });
+        dom.grid.innerHTML = html;
+        bindDeleteEvent();
+    }
+
+    // 绑定卡片删除点击
+    function bindDeleteEvent() {
+        dom.grid.querySelectorAll(".delete-tool-btn").forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                const item = btn.closest(".tool-item");
+                const delId = item.dataset.id;
+                const newList = getToolsList().filter(t => t.id !== delId);
+                saveToolsList(newList);
+                renderTools();
+                showToast("🗑️ 已移除工具");
+            };
+        });
+    }
+
+    // ====================== 业务操作 ======================
+    // 添加新工具
+    function addTool() {
+        const name = dom.nameInput.value.trim();
+        const link = dom.linkInput.value.trim();
+        if (!name) return showToast("请填写工具名称", 2000), dom.nameInput.focus();
+        if (!link) return showToast("请填写工具链接", 2000), dom.linkInput.focus();
+        if (link.toLowerCase().startsWith("javascript:")) return showToast("禁止javascript协议链接", 2000);
+
+        const newTool = {
+            id: genId(),
+            name,
+            link,
+            icon: matchIcon(name),
+            desc: `${name} · 快捷工具`
+        };
+        const list = getToolsList();
+        list.push(newTool);
+        saveToolsList(list);
+        renderTools();
+        // 清空输入
+        dom.nameInput.value = "";
+        dom.linkInput.value = "";
+        showToast(`✅ 已添加工具：${name}`);
+    }
+
+    // 重置默认工具
+    function resetDefault() {
+        if (!confirm("重置将清空所有自定义工具，恢复默认列表，确认继续？")) return;
+        saveToolsList([...config.defaultTools]);
+        renderTools();
+        showToast("已恢复默认工具导航 🎉");
+    }
+
+    // ====================== 页面异步初始化（先加载yml） ======================
+    async function init() {
+        // 加载外部yml配置
+        config = await loadYamlConfig();
+        renderTools();
+        // 添加按钮点击
+        dom.addBtn.addEventListener("click", addTool);
+        dom.resetBtn.addEventListener("click", resetDefault);
+        // 输入框回车快捷添加
+        const enterHandler = e => e.key === "Enter" && addTool();
+        dom.nameInput.addEventListener("keypress", enterHandler);
+        dom.linkInput.addEventListener("keypress", enterHandler);
+    }
+    init();
+</script>
+</body>
+</html>
