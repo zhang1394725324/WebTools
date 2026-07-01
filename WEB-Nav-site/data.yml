@@ -19,10 +19,10 @@ categories:
         url: https://nodepen.io/
         desc: 类似grasshopper-online
         tag: grasshopper
-      - name: Pixlr
-        url: https://pixlr.com
-        desc: 在线图片修图编辑器
-        tag: 图像处理
+      - name: 创造狮导航
+        url: https://chuangzaoshi.com/
+        desc: 导航工具
+        tag: 导航工具
 
   - id: dev
     name: 开发工具
