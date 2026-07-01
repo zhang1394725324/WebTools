@@ -1,0 +1,18 @@
+# Web工具导航 默认工具配置
+storageKey: "web_tools_nav_list"
+defaultTools:
+  - id: "tool_translate"
+    name: "网页翻译工具"
+    link: "WEB-Translation/index.html"
+    icon: "🌐"
+    desc: "智能翻译，跨语言阅读"
+  - id: "tool_json_kangaroo"
+    name: "Kangaroo2 JSON工具"
+    link: "JSON-Tools/to-json.html"
+    icon: "🦘"
+    desc: "JSON 格式化 / 转换 / 校验"
+  - id: "nav_site"
+    name: "web导航工具"
+    link: "WEB-Nav-site/index.html"
+    icon: "🌐"
+    desc: "web导航工具"
