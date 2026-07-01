@@ -23,6 +23,11 @@ categories:
         url: https://chuangzaoshi.com/
         desc: 导航工具
         tag: 导航工具
+      - name: demo-tools
+        url: https://demo-tools.mereith.com/
+        desc: 导航工具
+        tag: 导航工具
+
 
   - id: dev
     name: 开发工具
