@@ -45,6 +45,14 @@ categories:
         url: https://json.cn
         desc: JSON在线解析校验工具
         tag: 在线工具
+      - name: Rete.js
+        url: https://retejs.org/
+        desc: 开源节点式程序
+        tag: 在线工具
+      - name: litegraph.js
+        url: https://github.com/jagenjo/litegraph.js/
+        desc: 开源节点式程序
+        tag: 在线工具
 
   - id: media
     name: 素材资源
